@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> CS585 Homework : HW4 Student Name Jamie Nelson </title>
+	<style>
+
+		body{
+		font-family: 'Trebuchet MS', Verdana;
+		}
+		p{
+		font-family: 'Trebuchet MS', Times;
+		margin: 10px 10px 15px 20px;
+		}
+		h3{
+		margin: 5px;
+		}
+		h2{
+		margin: 10px;
+		}
+		h1{
+		margin: 10px 0px 0px 20px;
+		}
+		div.main-body{
+		align:center;
+		margin: 30px;
+		}
+		hr{
+		margin:20px 0px 20px 0px;
+		}
+
+		img, video{
+		  padding-left:5%;
+		}
+
+		.res{
+		  height: 180px;
+		}
+
+		.c{
+		   width: 500px;
+		   border: 1px solid black;
+		   vertical-align: middle;
+		   text-align: center;
+		}
+
+		td {
+
+		}
+	</style>
+</head>
+
+<body>
+	<center>
+		<a href="http://www.bu.edu"><img border="0" src="http://www.cs.bu.edu/fac/betke/images/bu-logo.gif"
+		width="119" height="120"></a>
+	</center>
+	
+	<hr/>
+	<div style="text-align:center;">
+		<h1>Computer Vision to Support Neuroscience Research</h1>
+		<h4>
+		 CS 585: Project Progress <br>
+		 Team members: 
+		 <a href="http://cs-people.bu.edu/sjzhao/">Shijie Zhao</a>,
+		 <a href="http://cs-people.bu.edu/jnnelson/">Jamie Nelson</a>,
+		 <a href="http://cs-people.bu.edu/jasonluo/">Jiangshan Luo</a>
+		</h4>
+	</div>
+	<hr/>
+
+	<div class="main-body">
+	
+	<h2> Project Introduction </h2>
+	<!--
+	Give a concise description of current problem.  What
+	needs to be solved?  Why is the result useful?  Do you make any assumptions?
+	What are the anticipated difficulties?
+	-->
+		<p>
+			In our project, we apply Computer Vision concepts to an ongoing neuroscience research project at Boston University. The current researcher records neural activity in the brain of mice and rats while they forage for food. We hope to provide extra analysis to the study through Computer Vision. The final goal of this project is to track the animal head and body regions in a video while the animal is moving through the experimental space. 
+		</p>
+
+	<hr>
+	<h2> Input: Video Source Samples </h2>
+	<p>
+	<!--
+	  Give a concise description of the implemented method. For example, you might
+	  describe the motivation of your idea, the algorithmic steps of your methods, or
+	  the mathematical formulation of your method.
+	-->
+	  
+	  We collected videos of the subjects from the neuro lab which are used as the input of our tracking problem. Currently, we have two video samples available. The one is taken by iPhone while the other is captured by the lab camera. Both of them are shown below.
+	</p>
+	
+	<p>
+		<b>lab camera:</b><br/>
+		The rat (inside red circle) from lab cam input is almost indistinguishable to human eyes. However this recording setting is not exactly the same as usual lab experiment setting.
+	</p>
+	<video width="800" height="600" controls>
+		<source src="./resource/VT1.mp4" type="video/mp4">
+	</video>
+	
+	<p>
+		<b>iPhone camera:</b><br/>
+		The iPhone footage is much clearer with many details. For example a small piece of food can be seen clearly in front of the rat.
+	</p>
+	<video width="800" height="600" controls>
+		<source src="./resource/rats.mp4" type="video/mp4">
+	</video>
+
+	
+	<hr>
+	<h2>Desired Result</h2>
+	<p>
+	  The desired result should be a rats/mice tracking system, that works in desired lighting conditions, and is able to track the animals consistently. Depend on the scientists’ requirements, we can output a trail on the live video, and also output an array of coordinates along the recording. We are also thinking of integrating the readings from the equipment that the neuroscientists are tracking and present the readings along with our tracking for easier understanding and comparison. The project deliverable should be a script or a software with an UI.
+	</p>
+	
+	<p>Demo Output (one frame inside the video)</p>
+	<img src="./resource/demo output.jpg"/>
+	
+	
+	<hr>
+	<h2> Our Approaches </h2>
+	<ul>
+		<li>
+			Firstly, we design and implement a <b>Segmentation</b> algorithm to detect the mice and rats in each video frame. The main body of the subject can be distinguished from the background using color detection. The head of the animal can be identified using the ears.
+		</li><br/>
+		<li>
+			Once the all the subjects in each frame are found, we will apply the <b>Kalman Filter</b>. Therefore, we will predict where the rat/mouse is going to be in the next frame.
+		</li><br/>
+		<li>
+			Then, the information gained from the Kalman Filter will be fed into the <b>Data Association</b> algorithm. This step associates predicted points and found objects in the next frame, thus tracking the animal from frame to frame.
+		</li><br/>
+		<li>
+			Finally, our last portion of the project will be <b>visualizing the results</b> in an informative way. We will consult with the researcher to insure our results are comprehensive and relevant to his/her study. At this stage, we can tweak any issues to best match the research. 
+		</li>
+	</ul>
+	
+	
+	<hr>
+	<h2> Current Work </h2>
+	<p>
+		We have communicated with the researcher and entered the lab for the first recording process. Currently, we finished the preprocessing of the video samples. Here are some result pictures:
+	</p>
+	
+	<ul>
+		<li>
+			<b>Preprocessing using lab cam footage</b><br/>
+			<img src="./resource/seg lab cam.png"/><br/>
+			
+			The silhouette of the main body of the rat is visible, and it’s visible across frames. However since the lighting is not consistent and it’s brighter on the left than on the right, when the rat moves to the right of the frame there is no trackable color difference across all 3 channels from the lab cam recording.
+		</li><br/>
+		
+		<li>
+			<b>Preprocessing using iPhone camera</b><br/>
+			<img src="./resource/iphone segmentation.png"/><br/>
+			
+			The rat and a piece of food(the little circle in front of the rat) is clearly visible and it’s possible to determine the rat’s orientation by locating its tail. The stationary wires and the clip can be removed using background differencing. The rat and the food piece are clearly visible throughout the video. 
+		</li>
+	</ul>
+	
+	
+	<hr>
+	<h2> Plan For The Next Step </h2>
+	<p>
+		Acquire new footages in exactly the settings the scientist perform experiments on, recorded with both lab cam and iPhone camera. If the lab cam footage works, we will go on from there and implement the tracking system. If not, we need to switch to the iPhone footage. We will also record from different angles and try to implement some useful functionalities related to absolute orientation.
+	</p>
+	
+	<hr>
+	<h2> Related Works </h2>
+	<p>
+		<cite>
+			[1] L. Catarinucci et al., “An animal tracking system for behavior analysis using radio frequency identification,” Lab Anim. (NY)., vol. 43, p. 321, Aug. 2014.<br/>
+			
+			[2] B. K. P. Horn, “Closed-form solution of absolute orientation using unit quaternions,” J. Opt. Soc. Am. A, 1987.<br/>
+			
+			[3] S. K. Weng, C. M. Kuo, and S. K. Tu, “Video object tracking using adaptive Kalman filter,” J. Vis. Commun. Image Represent., 2006.
+		</cite>
+	</p>
+
+
+	</div>
+</body>
+</html>
